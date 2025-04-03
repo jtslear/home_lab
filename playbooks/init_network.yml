@@ -1,0 +1,12 @@
+---
+# Network initialization playbook
+
+- name: Initialize network configuration
+  hosts: all
+  tasks:
+    - name: Include common network tasks
+      ansible.builtin.include_role:
+        name: common
+        tasks_from: network
+  tags:
+    - network

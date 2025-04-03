@@ -1,0 +1,5 @@
+---
+# Role dependencies for GitLab Runner
+
+dependencies:
+  - role: docker

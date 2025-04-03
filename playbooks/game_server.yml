@@ -1,0 +1,7 @@
+---
+# Game server playbook
+
+- name: Configure game server
+  hosts: game_server
+  roles:
+    - satisfactory

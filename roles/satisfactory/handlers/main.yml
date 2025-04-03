@@ -1,0 +1,5 @@
+---
+# Satisfactory handlers
+
+- name: Reload systemctl
+  ansible.builtin.command: systemctl daemon-reload

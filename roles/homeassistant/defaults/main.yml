@@ -1,0 +1,8 @@
+---
+# Default variables for Home Assistant role
+
+homeassistant_install_location: /var/opt/homeassistant/data
+homeassistant_nfs_source: stor.local:/volume1/homeassistant
+homeassistant_nfs_mount: /mnt/homeassistant
+homeassistant_backup_retention_days: 15
+homeassistant_timezone: America/New_York

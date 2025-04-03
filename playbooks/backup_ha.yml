@@ -1,0 +1,10 @@
+---
+# Home Assistant backup playbook
+
+- name: Backup Home Assistant
+  hosts: utility
+  tasks:
+    - name: Include Home Assistant backup tasks
+      ansible.builtin.include_role:
+        name: homeassistant
+        tasks_from: backup

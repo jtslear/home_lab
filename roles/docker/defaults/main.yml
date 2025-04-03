@@ -1,0 +1,18 @@
+---
+# Default variables for Docker role
+
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+
+docker_dependencies:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - python3-pip
+  - software-properties-common
+
+docker_apt_key_url: https://download.docker.com/linux/ubuntu/gpg
+docker_apt_repository: deb https://download.docker.com/linux/ubuntu bionic stable

@@ -1,0 +1,27 @@
+---
+# Tailscale installation and configuration
+
+- name: Add Tailscale GPG key
+  ansible.builtin.apt_key:
+    url: "{{ tailscale_apt_key_url }}"
+    state: present
+
+- name: Add Tailscale repository to apt
+  ansible.builtin.apt_repository:
+    repo: "{{ tailscale_apt_repository }}"
+    state: present
+
+- name: Remove old Tailscale repositories
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: absent
+  loop:
+    - deb https://pkgs.tailscale.com/stable/ubuntu jammy stable
+    - deb https://pkgs.tailscale.com/stable/ubuntu noble stable
+
+- name: Install Tailscale
+  ansible.builtin.apt:
+    name: tailscale
+    state: present
+    update_cache: yes
+  when: tailscale_install | default(true)

@@ -1,0 +1,36 @@
+---
+# PiHole installation and configuration
+
+- name: Install PiHole dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - git
+
+- name: Clone/Update Pi-hole
+  ansible.builtin.git:
+    repo: "{{ pihole_repo }}"
+    dest: "{{ pihole_install_dir }}"
+    clone: yes
+    update: yes
+    version: "{{ pihole_version }}"
+
+- name: Install Pi-Hole
+  ansible.builtin.command:
+    cmd: ./basic-install.sh
+    chdir: '{{ pihole_install_dir }}/automated install'
+    creates: /usr/local/bin/pihole
+
+- name: Check for Pi-hole updates
+  ansible.builtin.command: pihole updatePihole --check-only
+  changed_when: false
+  register: pihole_update_available
+
+- name: Update Pi-hole
+  ansible.builtin.command: pihole updatePihole
+  when: pihole_update_available.stdout | regex_search("[\sa-z]+update\ available", multiline=True)
+
+- name: Update adlists
+  ansible.builtin.command: pihole -g

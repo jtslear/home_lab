@@ -1,0 +1,50 @@
+---
+# GitLab Runner installation and configuration
+
+- name: Install GitLab Runner
+  ansible.builtin.get_url:
+    url: https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+    dest: /usr/local/bin/gitlab-runner
+  when: gitlab_runner_install | default(true)
+
+- name: Change file ownership, group and permissions
+  ansible.builtin.file:
+    path: /usr/local/bin/gitlab-runner
+    mode: '0755'
+  when: gitlab_runner_install | default(true)
+
+- name: Add the user gitlab-runner
+  ansible.builtin.user:
+    append: yes
+    groups:
+      - docker
+    name: gitlab-runner
+    comment: Gitlab Runner
+    shell: /bin/bash
+  when: gitlab_runner_install | default(true)
+
+- name: Install Gitlab Runner
+  ansible.builtin.command:
+    argv:
+      - /usr/local/bin/gitlab-runner
+      - install
+      - --user=gitlab-runner
+      - --working-directory=/home/gitlab-runner
+    creates: /etc/systemd/system/gitlab-runner.service
+  when: gitlab_runner_install | default(true)
+
+- name: Get Gitlab Runner status
+  changed_when: false
+  ignore_errors: true
+  ansible.builtin.command:
+    argv:
+      - /usr/local/bin/gitlab-runner
+      - status
+  register: gitlab_runner_status
+  when: gitlab_runner_install | default(true)
+
+- name: Run Gitlab Runner
+  ansible.builtin.command: /usr/local/bin/gitlab-runner start
+  when:
+    - gitlab_runner_install | default(true)
+    - gitlab_runner_status.rc != 0

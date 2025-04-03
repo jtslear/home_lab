@@ -1,0 +1,7 @@
+---
+# DNS servers playbook
+
+- name: Configure DNS servers
+  hosts: dns_servers
+  roles:
+    - pihole

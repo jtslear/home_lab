@@ -1,0 +1,21 @@
+---
+# Default variables for Satisfactory role
+
+# SteamCMD configuration
+satisfactory_user: steamcmd
+satisfactory_app_id: 1690800
+satisfactory_install_dir: /home/steamcmd/SatisfactoryDedicatedServer
+
+# Satisfactory server configuration
+satisfactory_blueprints_dir: /home/steamcmd/.config/Epic/FactoryGame/Saved/SaveGames/blueprints/GoodFactory v1/
+satisfactory_restart_hour: 6
+satisfactory_restart_minute: 0
+
+# Blueprint management
+blueprints_rclone_packages:
+  - rclone
+  - cronie
+blueprints_download_hour: "0,12"
+blueprints_download_minute: 40
+blueprints_delete_hour: "0,12"
+blueprints_delete_minute: 50

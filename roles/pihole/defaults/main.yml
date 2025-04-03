@@ -1,0 +1,6 @@
+---
+# Default variables for PiHole role
+
+pihole_repo: https://github.com/pi-hole/pi-hole.git
+pihole_version: v6.0.5
+pihole_install_dir: /opt/pi-hole

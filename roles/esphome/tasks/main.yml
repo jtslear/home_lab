@@ -1,0 +1,22 @@
+---
+# ESPHome installation and configuration
+
+- name: Create ESPHome data directory
+  ansible.builtin.file:
+    path: "{{ esphome_data_dir }}"
+    state: directory
+    mode: 0774
+    owner: root
+    group: root
+
+- name: Run ESPHome container
+  community.docker.docker_container:
+    name: esphome
+    image: esphome/esphome
+    pull: true
+    network_mode: host
+    privileged: true
+    restart_policy: always
+    state: started
+    volumes:
+      - "{{ esphome_data_dir }}:/config"

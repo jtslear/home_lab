@@ -1,0 +1,5 @@
+---
+# Role dependencies for ESPHome
+
+dependencies:
+  - role: docker

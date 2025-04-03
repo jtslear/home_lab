@@ -1,0 +1,48 @@
+---
+# Blueprint management tasks
+
+- name: Install rclone packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop: "{{ blueprints_rclone_packages }}"
+
+- name: Rclone root config dir
+  ansible.builtin.file:
+    path: "/home/{{ satisfactory_user }}/.config/rclone"
+    state: directory
+    mode: '0755'
+
+- name: Configure rclone SA
+  ansible.builtin.template:
+    src: satisfactory-437216-071bb8abf039.json.j2
+    dest: "/home/{{ satisfactory_user }}/.config/rclone/satisfactory-437216-071bb8abf039.json"
+    owner: "{{ satisfactory_user }}"
+    group: "{{ satisfactory_user }}"
+    mode: 0400
+
+- name: Configure rclone remote
+  ansible.builtin.template:
+    src: blueprints-rclone.conf.j2
+    dest: "/home/{{ satisfactory_user }}/.config/rclone/rclone.conf"
+    owner: "{{ satisfactory_user }}"
+    group: "{{ satisfactory_user }}"
+    mode: 0644
+
+- name: Download Blueprints Cron config
+  ansible.builtin.cron:
+    name: copy blueprints
+    minute: "{{ blueprints_download_minute }}"
+    hour: "{{ blueprints_download_hour }}"
+    job: "rclone sync gcloud-blueprints: {{ satisfactory_blueprints_dir }}"
+    user: "{{ satisfactory_user }}"
+
+- name: Remove from Google Drive Cron config
+  ansible.builtin.cron:
+    state: absent
+    name: delete blueprints
+    minute: "{{ blueprints_delete_minute }}"
+    hour: "{{ blueprints_delete_hour }}"
+    job: "rclone delete gcloud-blueprints:"
+    user: "{{ satisfactory_user }}"

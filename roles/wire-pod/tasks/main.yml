@@ -1,0 +1,11 @@
+---
+# Wire-Pod installation and configuration
+
+- name: Clone/Update wire-pod
+  ansible.builtin.git:
+    repo: "{{ wire_pod_repo }}"
+    dest: "{{ wire_pod_install_dir }}"
+    clone: yes
+    update: yes
+    version: "{{ wire_pod_version }}"
+  when: wire_pod_install | default(true)

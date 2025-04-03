@@ -1,0 +1,19 @@
+---
+
+# This file is managed by Ansible
+network:
+  ethernets:
+    {{ ansible_facts.default_ipv4.interface }}:
+      dhcp4: false
+      addresses:
+        - {{ ip_address }}/24
+      routes:
+        - to: default
+          via: 192.168.50.1
+      nameservers:
+        addresses:
+          - 127.0.0.1
+          - 1.1.1.1
+          - 8.8.4.4
+          - 8.8.8.8
+  version: 2

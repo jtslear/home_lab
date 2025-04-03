@@ -1,0 +1,61 @@
+---
+# Home Assistant installation and configuration
+
+- name: Install Home Assistant requirements
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - nfs-common
+    - postgresql
+
+- name: Create Home Assistant data directory
+  ansible.builtin.file:
+    path: "{{ homeassistant_install_location }}"
+    state: directory
+    mode: 0774
+    owner: root
+    group: root
+
+- name: Mount Home Assistant NFS volume
+  ansible.posix.mount:
+    src: "{{ homeassistant_nfs_source }}"
+    path: "{{ homeassistant_nfs_mount }}"
+    opts: soft,timeo=30 0 0
+    state: mounted
+    fstype: nfs
+  timeout: 10
+  tags:
+    - nfs
+
+- name: Ensure PostgreSQL is running
+  ansible.builtin.service:
+    name: postgresql@14-main
+    state: started
+    enabled: yes
+
+- name: Run Home Assistant container
+  community.docker.docker_container:
+    name: homeassistant
+    image: homeassistant/home-assistant:stable
+    pull: true
+    network_mode: host
+    privileged: true
+    restart_policy: always
+    state: started
+    env:
+      TZ: "{{ homeassistant_timezone }}"
+    volumes:
+      - "{{ homeassistant_install_location }}:/config"
+      - "/var/run/postgresql/:/run/postgresql"
+    devices:
+      - "/dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20220815204738-if00:/dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20220815204738-if00"
+      - "/dev/ttyACM0:/dev/ttyACM0"
+
+- name: Create cron job for backup purge
+  ansible.builtin.cron:
+    name: "purge old backups"
+    minute: "0"
+    hour: "0"
+    job: "find {{ homeassistant_install_location }}/backups -ctime {{ homeassistant_backup_retention_days }} -delete"

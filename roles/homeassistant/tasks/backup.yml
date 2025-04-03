@@ -1,0 +1,8 @@
+---
+# Home Assistant backup tasks
+
+- name: Synchronize Home Assistant backups to NFS mount
+  ansible.posix.synchronize:
+    src: /var/opt/homeassistant/backups
+    dest: "{{ homeassistant_nfs_mount }}"
+  delegate_to: instance0

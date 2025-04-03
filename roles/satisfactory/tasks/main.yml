@@ -1,0 +1,11 @@
+---
+# Satisfactory server installation and configuration
+
+- name: Include SteamCMD tasks
+  ansible.builtin.import_tasks: steamcmd.yml
+
+- name: Include Satisfactory server tasks
+  ansible.builtin.import_tasks: server.yml
+
+- name: Include Blueprint management tasks
+  ansible.builtin.import_tasks: blueprints.yml

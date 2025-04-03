@@ -1,0 +1,4 @@
+---
+# Default variables for ESPHome role
+
+esphome_data_dir: /var/opt/homeassistant/data/esphome

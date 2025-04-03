@@ -1,0 +1,6 @@
+---
+# Default variables for Tailscale role
+
+tailscale_apt_key_url: https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg
+tailscale_apt_repository: deb https://pkgs.tailscale.com/stable/ubuntu jammy main
+tailscale_install: true

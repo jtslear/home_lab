@@ -1,0 +1,36 @@
+---
+# Satisfactory server tasks
+
+- name: Install Satisfactory
+  ansible.builtin.command: /usr/games/steamcmd +force_install_dir ~/SatisfactoryDedicatedServer +login anonymous +app_update {{ satisfactory_app_id }} -beta public validate +quit
+  become: yes
+  become_user: "{{ satisfactory_user }}"
+  tags:
+    - satisfactory
+
+- name: Configure Satisfactory service
+  ansible.builtin.template:
+    src: satisfactory.service.j2
+    dest: /etc/systemd/system/satisfactory.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: Reload systemctl
+  tags:
+    - satisfactory
+
+- name: Start Satisfactory
+  ansible.builtin.service:
+    name: satisfactory
+    enabled: true
+    state: started
+  tags:
+    - satisfactory
+
+- name: Cron the restart of Satisfactory
+  ansible.builtin.cron:
+    name: restart satisfactory blueprints
+    minute: "{{ satisfactory_restart_minute }}"
+    hour: "{{ satisfactory_restart_hour }}"
+    job: "systemctl restart satisfactory.service"
+    user: root

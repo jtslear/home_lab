@@ -1,0 +1,7 @@
+---
+# Default variables for Wire-Pod role
+
+wire_pod_repo: https://github.com/kercre123/wire-pod
+wire_pod_install_dir: /opt/wire-pod
+wire_pod_version: main
+wire_pod_install: true

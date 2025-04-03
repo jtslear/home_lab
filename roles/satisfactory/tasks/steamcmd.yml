@@ -1,0 +1,26 @@
+---
+# SteamCMD installation tasks
+
+- name: Create Steam user
+  ansible.builtin.user:
+    name: "{{ satisfactory_user }}"
+    password: "!"
+    shell: /usr/bin/bash
+    skeleton: /etc/skel
+  register: user_create
+  tags:
+    - steamcmd
+
+- name: Temporary Ansible Dir for steamcmd user
+  ansible.builtin.file:
+    path: "/home/{{ satisfactory_user }}/.ansible"
+    state: directory
+    mode: '0777'
+
+- name: Install SteamCMD
+  ansible.builtin.apt:
+    name: steamcmd
+    state: present
+    update_cache: yes
+  tags:
+    - steamcmd

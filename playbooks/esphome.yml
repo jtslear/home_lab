@@ -1,0 +1,9 @@
+---
+# ESPHome Service playbook
+
+- name: Configure esphome service
+  hosts: utility
+  roles:
+    - docker
+    - tailscale
+    - esphome

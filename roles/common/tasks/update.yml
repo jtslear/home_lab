@@ -1,0 +1,19 @@
+---
+# System update tasks
+
+- name: Update all apt packages
+  ansible.builtin.apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Check if reboot required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Reboot if required
+  changed_when: true
+  ansible.builtin.debug:
+    msg:
+      - "Reboot recommended"
+  when: reboot_required_file.stat.exists == true

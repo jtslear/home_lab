@@ -1,0 +1,23 @@
+---
+# Main playbook that includes all other playbooks
+
+- name: Apply common configuration to all hosts
+  hosts: all
+  roles:
+    - common
+
+- name: Configure utility server
+  import_playbook: utility.yml
+
+- name: Configure game server
+  import_playbook: game_server.yml
+
+- name: Configure DNS servers
+  import_playbook: dns.yml
+
+- name: Include Tailscale role
+  hosts: all
+  roles:
+    -tailscale
+  tags:
+    - tailscale

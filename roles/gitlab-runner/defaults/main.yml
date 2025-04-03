@@ -1,0 +1,4 @@
+---
+# Default variables for GitLab Runner role
+
+gitlab_runner_install: false

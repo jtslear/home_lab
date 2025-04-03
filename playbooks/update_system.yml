@@ -1,0 +1,10 @@
+---
+# System update playbook
+
+- name: Update all systems
+  hosts: all
+  tasks:
+    - name: Include common update tasks
+      ansible.builtin.include_role:
+        name: common
+        tasks_from: update

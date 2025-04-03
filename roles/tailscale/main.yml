@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install Tailscale
+      apt:
+        name: tailscale
+        state: present
+
+    - name: Accept Tailscale license
+      command: tailscale accept
+      args:
+        creates: /home/john/.tailscale/license
+
+    - name: Authenticate with Tailscale
+      command: tailscale up
+      args:
+        creates: /home/john/.tailscale/state
+
+    - name: Enable Tailscale
+      command: tailscale enable
+      args:
+        creates: /home/john/.tailscale/enabled

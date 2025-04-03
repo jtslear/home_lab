@@ -1,0 +1,33 @@
+---
+# Docker installation and configuration
+
+- name: Install docker dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop: "{{ docker_dependencies }}"
+
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: "{{ docker_apt_key_url }}"
+    state: present
+
+- name: Add Docker repository to apt
+  ansible.builtin.apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+
+- name: Install Docker packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop: "{{ docker_packages }}"
+  notify: Restart docker
+
+- name: Ensure Docker is running
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: yes

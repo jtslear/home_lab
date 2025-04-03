@@ -1,0 +1,23 @@
+---
+# Network configuration tasks
+
+- name: Configure netplan
+  ansible.builtin.template:
+    src: netplan.yaml.j2
+    dest: /etc/netplan/00-installer-config.yaml
+    owner: root
+    group: root
+    mode: 0600
+  register: netplan_file
+
+- name: Apply netplan
+  ansible.builtin.command: netplan apply
+  register: netplan_apply
+  when: netplan_file.changed
+
+- name: Debug netplan
+  ansible.builtin.debug:
+    msg: |
+      Apply stdout: {{ netplan_apply.stdout }}
+      Apply stderr: {{ netplan_apply.stderr }}
+  when: netplan_file.changed
