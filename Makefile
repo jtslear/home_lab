@@ -47,12 +47,12 @@ infra-update: ## Update OS and dependencies on all servers
 
 .PHONY: infra-deploy-all
 infra-deploy-all: ## Deploy all services to all servers
-	ansible-playbook --inventory $(INVENTORY) playbooks/site.yml
+	ansible-playbook --ask-become-pass --inventory $(INVENTORY) -b playbooks/site.yml
 
 ## Home Assistant Commands
 .PHONY: ha-deploy
 ha-deploy: ## Deploy/update Home Assistant
-	ansible-playbook --inventory $(INVENTORY) playbooks/ha-deploy.yml --skip-tags nfs
+	ansible-playbook --ask-become-pass --inventory $(INVENTORY) -b playbooks/ha-deploy.yml
 
 .PHONY: ha-backup
 ha-backup: ## Backup Home Assistant configuration
@@ -66,7 +66,7 @@ pihole-deploy: ## Deploy/update PiHole
 ## ESPHome Commands
 .PHONY: esphome-deploy
 esphome-deploy: ## Deploy/update ESPHome
-	ansible-playbook --inventory $(INVENTORY) -b playbooks/utility.yml
+	ansible-playbook --ask-become-pass --inventory $(INVENTORY) -b playbooks/esphome.yml
 
 ## Satisfactory Commands
 .PHONY: satisfactory-deploy

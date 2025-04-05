@@ -6,8 +6,11 @@
   roles:
     - common
 
-- name: Configure utility server
-  import_playbook: utility.yml
+- name: Configure Home Assistant server
+  import_playbook: ha-deploy.yml
+
+- name: Configure ESPHome server
+  import_playbook: esphome.yml
 
 - name: Configure game server
   import_playbook: game_server.yml
@@ -18,6 +21,4 @@
 - name: Include Tailscale role
   hosts: all
   roles:
-    -tailscale
-  tags:
     - tailscale

@@ -4,6 +4,4 @@
 - name: Configure esphome service
   hosts: utility
   roles:
-    - docker
-    - tailscale
     - esphome

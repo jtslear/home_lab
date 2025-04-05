@@ -1,5 +1,6 @@
 ---
-- hosts: home_assistant
+- name: Deploy Home Assistant service
+  hosts: home_assistant
   become: yes
   roles:
     - homeassistant

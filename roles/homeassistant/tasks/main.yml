@@ -22,7 +22,7 @@
   ansible.posix.mount:
     src: "{{ homeassistant_nfs_source }}"
     path: "{{ homeassistant_nfs_mount }}"
-    opts: soft,timeo=30 0 0
+    opts: soft
     state: mounted
     fstype: nfs
   timeout: 10
