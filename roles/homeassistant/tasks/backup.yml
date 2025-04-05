@@ -3,6 +3,6 @@
 
 - name: Synchronize Home Assistant backups to NFS mount
   ansible.posix.synchronize:
-    src: /var/opt/homeassistant/backups
+    src: "{{ homeassistant_install_location }}/backups/" # Use variable and add trailing slash for rsync behavior
     dest: "{{ homeassistant_nfs_mount }}"
-  delegate_to: instance0
+  delegate_to: 192.168.50.254
