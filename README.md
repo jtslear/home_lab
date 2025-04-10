@@ -4,7 +4,7 @@ This repository contains Ansible playbooks and configurations for managing a hom
 
 ## Overview
 
-The automation is built using Ansible playbooks with a Makefile interface for easy execution.
+The automation is built using Ansible playbooks with mise tasks for easy execution.
 
 ## Repository Structure
 
@@ -12,10 +12,9 @@ The repository follows Ansible best practices with a role-based structure:
 
 ```
 home_lab/
-├── inventories/           # Inventory files
-│   └── home/              # Home lab environment
-│       ├── group_vars/    # Group variables
-│       └── hosts.yml      # Inventory hosts
+├── inventory/             # Inventory files
+│   ├── hosts.yml          # Inventory hosts
+│   └── group_vars/        # Group variables
 ├── roles/                 # Ansible roles
 │   ├── common/            # Common configuration for all hosts
 │   ├── docker/            # Docker installation and configuration
@@ -28,29 +27,39 @@ home_lab/
 │   └── wire-pod/          # Wire-Pod configuration (disabled)
 ├── playbooks/             # Ansible playbooks
 │   ├── site.yml           # Main playbook
-│   ├── utility.yml        # Utility server playbook
 │   ├── game_server.yml    # Game server playbook
 │   ├── dns.yml            # DNS servers playbook
+│   ├── ha-deploy.yml      # Home Assistant deployment playbook
 │   ├── backup_ha.yml      # Home Assistant backup playbook
+│   ├── esphome.yml        # ESPHome deployment playbook
+│   ├── tailscale.yml      # Tailscale deployment playbook
 │   ├── update_system.yml  # System update playbook
 │   └── init_network.yml   # Network initialization playbook
-└── Makefile               # Makefile interface
+└── .mise.toml             # mise configuration and tasks
 ```
 
 ## Requirements
 
 - Python 3
 - Ansible
-- [mise](https://mise.jdx.dev/) (for dependency management)
+- [mise](https://mise.jdx.dev/) (for dependency management and task execution)
 
-The repository uses mise for managing Python versions. The required version is specified in `.mise.toml`.
+The repository uses mise for managing Python versions and task execution. The required Python version and available tasks are specified in `.mise.toml`.
 
 ## Usage
 
-All operations are performed through the Makefile interface. Use `make help` to see all available commands.
+All operations are performed through mise tasks.
+
+To see all available tasks:
 
 ```
-make <command>
+mise task list
+```
+
+To run a specific task:
+
+```
+mise run <task>
 ```
 
 ## Infrastructure Details

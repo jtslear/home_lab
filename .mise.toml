@@ -1,2 +1,57 @@
 [tools]
 python = "latest"
+
+# Infrastructure Commands
+[tasks.infra-ping]
+description = "Check connectivity to all servers"
+run = "ansible all -m ping"
+
+[tasks.infra-init]
+description = "Initialize all servers with basic configuration"
+run = "ansible-playbook --ask-pass --ask-become-pass playbooks/init_network.yml"
+
+[tasks.infra-update]
+description = "Update OS and dependencies on all servers"
+run = "ansible-playbook playbooks/update_system.yml"
+
+[tasks.infra-deploy-all]
+description = "Deploy all services to all servers"
+run = "ansible-playbook --ask-become-pass -b playbooks/site.yml"
+
+# Home Assistant Commands
+[tasks.ha-deploy]
+description = "Deploy/update Home Assistant"
+run = "ansible-playbook --ask-become-pass -b playbooks/ha-deploy.yml"
+
+[tasks.ha-backup]
+description = "Backup Home Assistant configuration"
+run = "ansible-playbook -v playbooks/backup_ha.yml"
+
+# PiHole Commands
+[tasks.pihole-deploy]
+description = "Deploy/update PiHole"
+run = "ansible-playbook playbooks/dns.yml"
+
+# ESPHome Commands
+[tasks.esphome-deploy]
+description = "Deploy/update ESPHome"
+run = "ansible-playbook --ask-become-pass -b playbooks/esphome.yml"
+
+# Satisfactory Commands
+[tasks.satisfactory-deploy]
+description = "Deploy/update Satisfactory game server"
+run = "ansible-playbook --ask-become-pass playbooks/game_server.yml"
+
+# Tailscale Commands
+[tasks.tailscale-deploy]
+description = "Deploy/update Tailscale VPN"
+run = "ansible-playbook -b playbooks/tailscale.yml"
+
+# Disabled Services
+[tasks.gitlab-runner-deploy]
+description = "Deploy/update GitLab Runner (currently disabled)"
+run = "echo 'Disabled.'"
+
+[tasks.wire-pod-deploy]
+description = "Deploy/update Wire-Pod (currently disabled)"
+run = "echo 'Disabled.'"

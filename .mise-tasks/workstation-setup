@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#MISE description="Setup local workstation to make use of this project"
+
+mise trust
+mise install
+python -V
+python -m pip -V
+python -m pip install --user ansible
+ansible --version

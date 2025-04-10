@@ -1,20 +1,5 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Distribution / packaging
-.eggs/
-dist/
-build/
-sdist/
-wheel/
-*.egg-info/
-
 # Inventory files
-inventories/
+inventory/
 
 # Other
-.vscode/
 ansible.cfg
