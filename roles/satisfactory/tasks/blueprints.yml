@@ -32,15 +32,16 @@
 
 - name: Download Blueprints Cron config
   ansible.builtin.cron:
+    state: present
     name: copy blueprints
     minute: "{{ blueprints_download_minute }}"
     hour: "{{ blueprints_download_hour }}"
-    job: "rclone sync gcloud-blueprints: {{ satisfactory_blueprints_dir }}"
+    job: "rclone copy gcloud-blueprints: {{ satisfactory_blueprints_dir }}"
     user: "{{ satisfactory_user }}"
 
 - name: Remove from Google Drive Cron config
   ansible.builtin.cron:
-    state: absent
+    state: present
     name: delete blueprints
     minute: "{{ blueprints_delete_minute }}"
     hour: "{{ blueprints_delete_hour }}"

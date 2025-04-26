@@ -3,3 +3,8 @@
 
 - name: Reload systemctl
   ansible.builtin.command: systemctl daemon-reload
+
+- name: Restart Satisfactory service
+  ansible.builtin.service:
+    name: satisfactory
+    state: restarted

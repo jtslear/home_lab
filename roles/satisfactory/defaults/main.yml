@@ -10,6 +10,7 @@ satisfactory_install_dir: /home/steamcmd/SatisfactoryDedicatedServer
 satisfactory_blueprints_dir: /home/steamcmd/.config/Epic/FactoryGame/Saved/SaveGames/blueprints/GoodFactory v1/
 satisfactory_restart_hour: 6
 satisfactory_restart_minute: 0
+satisfactory_experimental_mode: false
 
 # Blueprint management
 blueprints_rclone_packages:

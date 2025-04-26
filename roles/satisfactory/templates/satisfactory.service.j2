@@ -6,7 +6,8 @@ After=syslog.target network.target nss-lookup.target network-online.target
 [Service]
 Environment="LD_LIBRARY_PATH=./linux64"
 ExecStartPre=/usr/games/steamcmd +force_install_dir {{ satisfactory_install_dir }} +login anonymous +app_update {{ satisfactory_app_id }} validate +quit
-ExecStart={{ satisfactory_install_dir }}/FactoryServer.sh -ServerQueryPort=15777 -BeaconPort=15000 -Port=7777 -log -unattended -multihome=0.0.0.0
+ExecStart={{ satisfactory_install_dir }}/FactoryServer.sh -ServerQueryPort=15777 -BeaconPort=15000 -Port=7777 -log -unattended -multihome=0.0.0.0{% if satisfactory_experimental_mode %} -beta experimental{% endif %}
+
 User={{ satisfactory_user }}
 Group={{ satisfactory_user }}
 StandardOutput=journal
